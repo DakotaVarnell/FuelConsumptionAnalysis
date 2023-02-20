@@ -49,13 +49,24 @@ with open('data_files\Fuel_Consumption_2000-2022.csv', encoding="utf8") as csv_f
             elif len(row_information[i]) == 12 and key not in row_information[i][2]:
                 row_information[i].insert(3,'Null')
 
+        #add a new column called flex_fuel which will contain a boolean showing whether the vehicle is flex fuel, does similar to drive-type
+        for key in flex_fuel:
+            
+            if key in row_information[i][2]:
+                row_information[i][2] = str(row_information[i][2]).replace(key, '')
+                row_information[i].insert(4, key)
+                
+            elif (len(row_information[i]) == 13 and key not in row_information[i][2]):
+                row_information[i].insert(4, 'Null')
+            
 
 
     #Testing just show the top few hundred
-    for i in range(len(row_information) - 22300):
-        print(row_information[i])
+    for i in range(len(row_information)):
+        
+        if row_information[i][4] != 'Null':
+            print(row_information[i])
 
-        #add a new column called flex_fuel which will contain a boolean showing whether the vehicle is flex fuel, does similar to drive-type
 
 # #open the file we will be writing to
 # file = open('data_files\Fuel_Consumption_2000-2022.csv', 'a', encoding='utf-8')
