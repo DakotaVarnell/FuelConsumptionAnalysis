@@ -4,12 +4,12 @@ import csv
 
 
 #create a list where we will be storing the row information
-column_titles = ['YEAR', 'MAKE', 'MODEL', 'VEHICLE CLASS', 'ENGINE SIZE', 'CYLINDERS', 'TRANSMISSION', 'FUEL', 'FUEL CONSUMPTION', 'HWY (mpg)', 'COMB (L/100 km)', 'COMB (mpg)', 'EMISSIONS']
+column_titles = ['YEAR', 'MAKE', 'MODEL', 'VEHICLE CLASS', 'DRIVE-TYPE', 'FLEX-FUEL', 'ENGINE SIZE', 'CYLINDERS', 'TRANSMISSION', 'FUEL', 'FUEL CONSUMPTION', 'HWY (mpg)', 'COMB (L/100 km)', 'COMB (mpg)', 'EMISSIONS']
 row_information = []
 
 #Create dictionaries we will use to check our values against and rewrite
 fuel_type = {'X':'Regular Gasoline', 'Z':'Premium Gasoline', 'D':'Diesel', 'E':'Ethanol'}
-drive_types = {'4x4':'4-Wheel Drive', 'AWD':'All-Wheel Drive'}
+drive_types = {'4X4':'4-Wheel Drive', 'AWD':'All-Wheel Drive', '4WD':'4-Wheel Drive'}
 flex_fuel = {'FFV':'Flex Fuel Vehicle'}
 transmission_type = {
 'A':'Automatic', 'AM':'Automatic Manual', 'AS':'Automatic with Select Shift', 
@@ -30,15 +30,32 @@ with open('data_files\Fuel_Consumption_2000-2022.csv', encoding="utf8") as csv_f
     for i in range(len(row_information)):
 
         #convert our hwy efficiency from l/100 km to mpg
-        row_information[i][9] = round((235.215/float(row_information[i][9])), 1)
+        row_information[i][11] = round((235.215/float(row_information[i][9])), 1)
 
         #remove our comb efficiency for l/100 km because we already have the mpg equivalent
-        del row_information[i][10]
+        del row_information[i][12]
 
         #add a new column called drive-type which will grab the drive type from the model and remove it from model and add it to drive type column
 
-        #add a new column called flex_fuel which will contain a boolean showing whether the vehicle is flex fuel, does similar to drive-type
+        #iterate over the drive_type keys and check if they are listed in the vehicle model
+        for key in drive_types:
 
+            #if the vehicle model lists the drive type(4X4, AWD, 4WD) then remove it from the model name and then create a new column that contains the listed drive_type
+            if key in row_information[i][2]:
+                row_information[i][2] = str(row_information[i][2]).replace(key, '')
+                row_information[i].insert(3, key)
+
+            #if the length of the row is 12 then it didn't contain the drive_type and thus wasn't added, so double check and then add a null value in column 3
+            elif len(row_information[i]) == 12 and key not in row_information[i][2]:
+                row_information[i].insert(3,'Null')
+
+
+
+    #Testing just show the top few hundred
+    for i in range(len(row_information) - 22300):
+        print(row_information[i])
+
+        #add a new column called flex_fuel which will contain a boolean showing whether the vehicle is flex fuel, does similar to drive-type
 
 # #open the file we will be writing to
 # file = open('data_files\Fuel_Consumption_2000-2022.csv', 'a', encoding='utf-8')
