@@ -1,7 +1,8 @@
+#Process the information on the Fuel_Consumption.csv file-clean it and modify it
+#Data Source from kaggle https://www.kaggle.com/datasets/ahmettyilmazz/fuel-consumption
+
 #import csv library
 import csv
-#Source from kaggle https://www.kaggle.com/datasets/ahmettyilmazz/fuel-consumption
-
 
 #create a list where we will be storing the row information
 column_titles = ['YEAR', 'MAKE', 'MODEL', 'VEHICLE CLASS', 'DRIVE-TYPE', 'FLEX-FUEL', 'ENGINE SIZE', 'CYLINDERS', 'TRANSMISSION', 'FUEL', 'FUEL CONSUMPTION', 'HWY (mpg)', 'COMB (L/100 km)', 'COMB (mpg)', 'EMISSIONS']
@@ -18,8 +19,8 @@ transmission_type = {
 'M8':'8-Speed Manual', 'M9':'9-Speed Manual', 'M10':'10-Speed Manual'
 }
 
-# #open the csv file and read it 
-with open('data_files\Fuel_Consumption_2000-2022.csv', encoding="utf8") as csv_file:
+#open the csv file and read it 
+with open('data_files\Raw_Fuel_Consumption_2000-2022.csv', encoding="utf8") as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
 
     #iterate through each row and read them into a python list
@@ -45,33 +46,38 @@ with open('data_files\Fuel_Consumption_2000-2022.csv', encoding="utf8") as csv_f
                 row_information[i][2] = str(row_information[i][2]).replace(key, '')
                 row_information[i].insert(3, key)
 
-            #if the length of the row is 12 then it didn't contain the drive_type and thus wasn't added, so double check and then add a null value in column 3
+            #if the length of the row is 12 then it didn't contain the drive_type and thus wasn't added, then add a null value in column 3
             elif len(row_information[i]) == 12 and key not in row_information[i][2]:
                 row_information[i].insert(3,'Null')
 
-        #add a new column called flex_fuel which will contain a boolean showing whether the vehicle is flex fuel, does similar to drive-type
+        #add a new column called flex_fuel which will contain FFV if the vehicle has flex fuel, otherwise null, similar to drive_type
         for key in flex_fuel:
             
+            #if the vehicle model lists Flex Fuel(FFV) then remove it from model and create a new column that contains FFV if true, null if not
             if key in row_information[i][2]:
                 row_information[i][2] = str(row_information[i][2]).replace(key, '')
                 row_information[i].insert(4, key)
-                
+
+            #if the length of the row is 13 then it doesn't contain flex fuel and didn't create the new column, add a nul value in column 4
             elif (len(row_information[i]) == 13 and key not in row_information[i][2]):
                 row_information[i].insert(4, 'Null')
+
+        #navigate our csv and change the drive type from the code such as M5 to the true value -> Manual 5-Speed
+        for key in transmission_type:
+
+            #check to see what key the current row transmisson type corresponds to and then replace it with the value of the key/val pair
+            if key in row_information[i][8]:
+                row_information[i][8] = str(transmission_type.get(key))
             
 
+#Rewrite our CSV to reflect these changes
+with open('data_files\Final_Fuel_Consumption_2000-2022.csv','w', newline = '', encoding='utf8') as csv_file:
 
-    #Testing just show the top few hundred
-    for i in range(len(row_information)):
+    #Create csv writer
+    csv_writer = csv.writer(csv_file, delimiter=',')
+
+    #Iterate through every row of the list and write the row to our new csv file
+    for row in range(len(row_information)):
+        csv_writer.writerow(row_information[row])
         
-        if row_information[i][4] != 'Null':
-            print(row_information[i])
 
-
-# #open the file we will be writing to
-# file = open('data_files\Fuel_Consumption_2000-2022.csv', 'a', encoding='utf-8')
-
-# #rewrite our csv converting the liters/km to miles/gallon
-# for i in range(len(row_information)):
-
-#     file.write(insert_stmt)
