@@ -5,7 +5,7 @@
 import csv
 
 #create a list where we will be storing the row information
-column_titles = ['YEAR', 'MAKE', 'MODEL', 'VEHICLE CLASS', 'DRIVE-TYPE', 'FLEX-FUEL', 'ENGINE SIZE', 'CYLINDERS', 'TRANSMISSION', 'FUEL', 'FUEL CONSUMPTION', 'HWY (mpg)', 'COMB (L/100 km)', 'COMB (mpg)', 'EMISSIONS']
+column_titles = ['YEAR', 'MAKE', 'MODEL', 'VEHICLE CLASS', 'DRIVE-TYPE', 'FLEX-FUEL', 'ENGINE SIZE', 'CYLINDERS', 'TRANSMISSION', 'FUEL', 'FUEL CONSUMPTION', 'HWY (mpg)', 'COMB (mpg)', 'EMISSIONS']
 row_information = []
 
 #Create dictionaries we will use to check our values against and rewrite
@@ -68,7 +68,13 @@ with open('data_files\Raw_Fuel_Consumption_2000-2022.csv', encoding="utf8") as c
             #check to see what key the current row transmisson type corresponds to and then replace it with the value of the key/val pair
             if key in row_information[i][8]:
                 row_information[i][8] = str(transmission_type.get(key))
-            
+
+        #navigate our csv and change the fuel type from the code such as X to the true value -> Gasoline       
+        for key in fuel_type:
+
+            #check to see what key the current row fuel type corresponds to and then replace it with the value of the key/val pair
+            if key in row_information[i][9]:
+                row_information[i][9] = str(fuel_type.get(key))
 
 #Rewrite our CSV to reflect these changes
 with open('data_files\Final_Fuel_Consumption_2000-2022.csv','w', newline = '', encoding='utf8') as csv_file:
