@@ -29,9 +29,9 @@ with open('data_files\Raw_Fuel_Consumption_2000-2022.csv', encoding="utf8") as c
 
     #iterate through our list and transform the values
     for i in range(len(row_information)):
-        
-        #convert our hwy efficiency from l/100 km to mpg
-        row_information[i][11] = round((235.215/float(row_information[i][9])), 1)
+
+        #change our hwy l/100km to mpg 
+        row_information[i][9] = round((235.215/float(row_information[i][9])), 1)
 
         #remove the # from our vehicle model
         row_information[i][2] = str(row_information[i][2]).replace('#', '')
@@ -39,29 +39,35 @@ with open('data_files\Raw_Fuel_Consumption_2000-2022.csv', encoding="utf8") as c
         #remove our comb efficiency for l/100 km because we already have the mpg equivalent
         del row_information[i][12]
 
-        #add a new column called drive-type which will grab the drive type from the model and remove it from model and add it to drive type column
+        #insert our two new columns, drive-type and flex-fuel
+        row_information[i].insert(4, '')
+        row_information[i].insert(5, '')
+
+        #our new column called drive-type which will grab the drive type from the model and remove it from model and add it to drive type column
         for key in drive_types:
 
-            #if the vehicle model lists the drive type(4X4, AWD, 4WD) then remove it from the model name and then create a new column that contains the listed drive_type
+            #if the vehicle model lists the drive type(4X4, AWD, 4WD) then remove it from the model name and add in our drive-type column
             if key in row_information[i][2]:
                 row_information[i][2] = str(row_information[i][2]).replace(key, '')
-                row_information[i].insert(4, key)
+                row_information[i][4] = key
 
-            #if the length of the row is 12 then it didn't contain the drive_type and thus wasn't added, then add a null value in column 3
-            elif len(row_information[i]) == 12 and key not in row_information[i][2]:
-                row_information[i].insert(4,'2WD')
 
-        #add a new column called flex_fuel which will contain FFV if the vehicle has flex fuel, otherwise null, similar to drive_type
+            #if the drive type column is empty we default to 2WD
+            elif row_information[i][4] == '':
+                row_information[i][4] = '2WD'
+
+
+        #our new column called flex_fuel which will contain FFV if the vehicle has flex fuel, otherwise null, similar to drive_type
         for key in flex_fuel:
             
-            #if the vehicle model lists Flex Fuel(FFV) then remove it from model and create a new column that contains FFV if true, null if not
+            #if the vehicle model lists Flex Fuel(FFV) then remove it from model and add in our flex-fuel column
             if key in row_information[i][2]:
                 row_information[i][2] = str(row_information[i][2]).replace(key, '')
-                row_information[i].insert(5, key)
+                row_information[i][5] = key
 
-            #if the length of the row is 13 then it doesn't contain flex fuel and didn't create the new column, add a nul value in column 4
-            elif (len(row_information[i]) == 13 and key not in row_information[i][2]):
-                row_information[i].insert(5, 'Null')
+            #if the flex fuel column is empty we default to null
+            elif row_information[i][5] == '':
+                row_information[i][5] = 'Null'
 
         #navigate our csv and change the drive type from the code such as M5 to the true value -> Manual 5-Speed
         for key in transmission_type:
