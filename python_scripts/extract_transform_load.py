@@ -49,7 +49,7 @@ with open('data_files\Raw_Fuel_Consumption_2000-2022.csv', encoding="utf8") as c
             #if the vehicle model lists the drive type(4X4, AWD, 4WD) then remove it from the model name and add in our drive-type column
             if key in row_information[i][2]:
                 row_information[i][2] = str(row_information[i][2]).replace(key, '')
-                row_information[i][4] = key
+                row_information[i][4] = key.upper()
 
 
             #if the drive type column is empty we default to 2WD
@@ -63,25 +63,30 @@ with open('data_files\Raw_Fuel_Consumption_2000-2022.csv', encoding="utf8") as c
             #if the vehicle model lists Flex Fuel(FFV) then remove it from model and add in our flex-fuel column
             if key in row_information[i][2]:
                 row_information[i][2] = str(row_information[i][2]).replace(key, '')
-                row_information[i][5] = key
+                row_information[i][5] = key.upper()
 
             #if the flex fuel column is empty we default to null
             elif row_information[i][5] == '':
-                row_information[i][5] = 'Null'
+                row_information[i][5] = 'Null'.upper()
 
         #navigate our csv and change the drive type from the code such as M5 to the true value -> Manual 5-Speed
         for key in transmission_type:
 
             #check to see what key the current row transmisson type corresponds to and then replace it with the value of the key/val pair
             if key in row_information[i][8]:
-                row_information[i][8] = str(transmission_type.get(key))
+                row_information[i][8] = str(transmission_type.get(key)).upper()
 
         #navigate our csv and change the fuel type from the code such as X to the true value -> Gasoline       
         for key in fuel_type:
 
             #check to see what key the current row fuel type corresponds to and then replace it with the value of the key/val pair
             if key in row_information[i][9]:
-                row_information[i][9] = str(fuel_type.get(key))
+                row_information[i][9] = str(fuel_type.get(key)).upper()
+        
+        #convert all of our string column values into a consistent case bc dataset is not consistent
+        row_information[i][3] = str(row_information[i][3]).upper()
+        row_information[i][2] = str(row_information[i][2]).upper()
+        row_information[i][1] = str(row_information[i][1]).upper()
 
 # #Rewrite our CSV to reflect these changes
 with open('data_files\Final_Fuel_Consumption_2000-2022.csv','w', newline = '', encoding='utf8') as csv_file:
