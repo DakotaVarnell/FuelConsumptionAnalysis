@@ -31,13 +31,13 @@ with open('data_files\Raw_Fuel_Consumption_2000-2022.csv', encoding="utf8") as c
     for i in range(len(row_information)):
 
         #change our hwy l/100km to mpg 
-        row_information[i][9] = round((235.215/float(row_information[i][9])), 1)
+        row_information[i][10] = round((235.215/float(row_information[i][10])), 1)
 
         #remove the # from our vehicle model
         row_information[i][2] = str(row_information[i][2]).replace('#', '')
 
         #remove our comb efficiency for l/100 km because we already have the mpg equivalent
-        del row_information[i][12]
+        del row_information[i][9]
 
         #insert our two new columns, drive-type and flex-fuel
         row_information[i].insert(4, '')
