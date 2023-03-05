@@ -1,7 +1,6 @@
 # Fuel Consumption Analysis for Vehicles Made Between 2000-2022
 This is a data engineering project that focuses on the data pipeline from beginning to end. It utilizes a dataset found on Kaggle that contains all the data of vehicles made by various car manufacturers. 
 
-## Process the information on the Fuel_Consumption.csv file-clean it and modify it
 Data Source from Kaggle https://www.kaggle.com/datasets/ahmettyilmazz/fuel-consumption
 
 Run the data through my etl script written in [Python ETL Script](https://github.com/DakotaVarnell/FuelConsumptionDataPipeline/blob/master/python_scripts/extract_transform_load.py) where I've clean the data significantly, created new columns for important aspects of the data such as drive_type and flex-fuel-vehicle and rewritten the data to a new file
@@ -44,13 +43,6 @@ from fuel_consumption
 group by year
 order by year asc;
 
-
---DDL to drop tables
-drop table fuel_consumption;
-drop table average_by_drivetype;
-drop table average_by_num_cylinder;
-drop table average_by_make;
-drop table average_by_year;
 ~~~~
 
 # Finally I created a dashboard on Amazon Quicksight to visualize the tables I had just created in Athena
