@@ -48,7 +48,7 @@ order by year asc;
 # Finally I created a dashboard on Amazon Quicksight to visualize the tables I had just created in Athena
 
 ## Average Fuel Economy by Make of Vehicle
-As you can see from the chart below, the Smart brand reigns supreme with the highest fuel economy around 50mpg while the lowest performers are luxury performance car brands such as Bugatti and Ferrari. 
+As you can see from the bar graph below, the Smart brand reigns supreme with the highest fuel economy around 50mpg while the lowest performers are luxury performance car brands such as Bugatti and Ferrari. 
 ![image](https://user-images.githubusercontent.com/89564744/222990354-961a45e2-faa4-48d3-a491-305aaf8bf00d.png)
 
 
@@ -58,7 +58,7 @@ On Average between the years 2000 and 2022 fuel economy has remained within the 
 
 
 ## Average Fuel Economy by Number of Cylinders
-As you can see from the chart below, for the most part engines with more cylinders do not get as good fuel economy as those with less. Three-Cylinder engines perform significantly higher than all the others in this example. 
+As you can see from the bar graph below, for the most part engines with more cylinders do not get as good fuel economy as those with less. Three-Cylinder engines perform significantly higher than all the others in this example. 
 ![image](https://user-images.githubusercontent.com/89564744/222990410-e703079a-13e9-4e2a-9209-50167ebba9cb.png)
 
 
