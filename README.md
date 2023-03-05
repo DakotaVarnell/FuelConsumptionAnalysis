@@ -3,7 +3,7 @@ This is a data engineering project that focuses on the data pipeline from beginn
 
 Data Source from Kaggle https://www.kaggle.com/datasets/ahmettyilmazz/fuel-consumption
 
-Run the data through my etl script written in [Python ETL Script](https://github.com/DakotaVarnell/FuelConsumptionDataPipeline/blob/master/python_scripts/extract_transform_load.py) where I've clean the data significantly, created new columns for important aspects of the data such as drive_type and flex-fuel-vehicle and rewritten the data to a new file
+Run the data through my etl script written in Python ([ETL Script](https://github.com/DakotaVarnell/FuelConsumptionDataPipeline/blob/master/python_scripts/extract_transform_load.py)) where I've clean the data significantly, created new columns for important aspects of the data such as drive_type and flex-fuel-vehicle and rewritten the data to a new file
 
 ## Now I have a cleaned csv file which I uploaded into an AWS S3 bucket for storage
 I named the S3 bucket pipelineprojectbucket and as you can see I've sucessfully uploaded the newly transformed csv file
